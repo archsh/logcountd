@@ -1,0 +1,2 @@
+# logcountd
+A log counter.
