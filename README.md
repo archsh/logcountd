@@ -1,2 +1,2 @@
-# logcountd
-A log counter.
+# logmarked
+A log processor.

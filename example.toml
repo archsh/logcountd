@@ -1,0 +1,8 @@
+#### Example Configuration File ########################################################################################
+[main]
+log_file="./test.log"
+log_pattern=""
+follow=true
+from_begin=true
+
+[destination]
