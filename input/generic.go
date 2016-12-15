@@ -16,6 +16,13 @@ type HttpConfig struct {
 	Auth string
 	Username string
 	Password string
+	Response ResponseStatus
+}
+
+type ResponseStatus struct {
+	Error uint   // Default 400
+	Failed uint  // Default 500
+	Success uint // Default 201
 }
 
 

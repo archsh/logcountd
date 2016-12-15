@@ -18,8 +18,8 @@ type FilterWorker interface {
 
 type LogMarker struct {
 	Inputs map[string]InputWorker
-	Filters map[string]FilterWorker
-	Processors map[string]ProcessWorker
+	Filters []FilterWorker
+	Processors []ProcessWorker
 	Outputs map[string]OutputWorker
 }
 

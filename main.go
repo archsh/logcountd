@@ -1,15 +1,15 @@
 package main
 
 import (
-	"os"
 	"flag"
 	"fmt"
 	"logmarked/logmarker"
+	"os"
 )
 
 const VERSION = "0.1.0"
 
-var logging_config = LoggingConfig{Format:DEFAULT_FORMAT, Level:"DEBUG"}
+var logging_config = LoggingConfig{Format: DEFAULT_FORMAT, Level: "DEBUG"}
 
 func Usage() {
 	guide := `
@@ -21,7 +21,6 @@ Options:
 	os.Stdout.Write([]byte(guide))
 	flag.PrintDefaults()
 }
-
 
 func main() {
 	option := logmarker.Configuration{}
@@ -53,7 +52,7 @@ func main() {
 		Usage()
 		os.Exit(1)
 	}
-	if e:= logmarker.LoadConfiguration(config, &option); e != nil {
+	if e := logmarker.LoadConfiguration(config, &option); e != nil {
 		os.Stderr.Write([]byte(fmt.Sprintf("\n\n!!! Load Configuration file '%s' failed: %s \n", config, e)))
 		os.Exit(1)
 	}
@@ -67,7 +66,7 @@ func main() {
 	logging_config.Level = log_level
 	if log_file != "" {
 		InitializeLogging(&logging_config, false, logging_config.Level)
-	}else{
+	} else {
 		InitializeLogging(&logging_config, true, logging_config.Level)
 	}
 	defer DestroyLogging()
@@ -77,7 +76,7 @@ func main() {
 	if e := logmarker.Run(&option); nil != e {
 		os.Stderr.Write([]byte(fmt.Sprintf("\n\n!!! Run LogMarkerStart failed: %s \n", e)))
 		os.Exit(1)
-	}else{
+	} else {
 		os.Stderr.Write([]byte("\n\n!!! Mission Acomplished!\n"))
 	}
 }
