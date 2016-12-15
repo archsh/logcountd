@@ -58,7 +58,7 @@ func InitializeLogging(config *LoggingConfig, useStd bool, level string) {
 	//log.Info("Logging Initialized.")
 }
 
-func DeinitializeLogging() {
+func DestroyLogging() {
 	if nil != OUTPUT_FILE {
 		OUTPUT_FILE.Close()
 	}

@@ -69,7 +69,9 @@ func main() {
 	}else{
 		InitializeLogging(&logging_config, true, logging_config.Level)
 	}
-	defer DeinitializeLogging()
+	defer DestroyLogging()
+
+	//os.Stderr.Write([]byte(fmt.Sprintf("Config: \n %+v \n", option)))
 
 	if e := LogMarkerStart(&option); nil != e {
 		os.Stderr.Write([]byte(fmt.Sprintf("\n\n!!! Run LogMarkerStart failed: %s \n", e)))

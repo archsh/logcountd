@@ -1,30 +1,28 @@
 package main
 import (
-	"github.com/BurntSushi/toml"
 	"io"
+	"logmarked/input"
+	"logmarked/filter"
+	"logmarked/output"
+	"logmarked/process"
+	"gopkg.in/yaml.v2"
+	"os"
+	//log "github.com/Sirupsen/logrus"
+	"fmt"
+	"io/ioutil"
 )
 
 type Configuration struct {
-	Input InputConfiguration
-	Filter FilterConfiguration
-	Process ProcessConfiguration
-	Output OutputConfiguration
+	LogMarked *GlobalConfig
+	Inputs []*input.InputConfig
+	Filters []*filter.FilterConfig
+	Processes []*process.ProcessConfig
+	Outputs []*output.OutputConfig
 }
 
-type InputConfiguration struct {
-
-}
-
-type OutputConfiguration struct {
-
-}
-
-type FilterConfiguration struct {
-
-}
-
-type ProcessConfiguration struct {
-
+type GlobalConfig struct {
+	Log_File string
+	Log_Level string
 }
 
 func CheckConfiguration(option *Configuration, output io.Writer) {
@@ -37,12 +35,27 @@ func CheckConfiguration(option *Configuration, output io.Writer) {
 		return
 	}
 	_print("\n")
-	toml.NewEncoder(output).Encode(option)
+	if b, e := yaml.Marshal(option); nil == e {
+		output.Write(b)
+	}else{
+		output.Write([]byte(fmt.Sprintf("Marshal conifiguration failed:> %s", e)))
+	}
 	_print("\n")
 	_print("Configration validated!\n")
 }
 
 func LoadConfiguration(filename string, option *Configuration) (e error) {
-	_, e = toml.DecodeFile(filename, option)
+	if f, e := os.Open(filename); nil != e {
+		return e
+	}else{
+		defer f.Close()
+		if buf, e := ioutil.ReadAll(f); nil != e {
+			return e
+		}else{
+			//log.Debugf("Read %d bytes from file '%s'.", n, filename)
+			//fmt.Printf("Read %d bytes from file '%s'.\n", len(buf), filename)
+			e = yaml.Unmarshal(buf, &option)
+		}
+	}
 	return e
 }

@@ -1,0 +1,55 @@
+logmarked:
+  log_file: STDOUT
+  log_level: WARN
+
+inputs:
+  - source: file://./test1.log
+    file:
+      follow: true
+      offset: end
+  - source: udp://0.0.0.0:1234
+  - source: tcp://0.0.0.0:1234
+  - source: http://0.0.0.0:8080
+    http:
+      method: PUT
+filters:
+  - regex: ^[0-9]
+    action: skip
+  - regex: ^[a-z]
+    action: forward
+processes:
+  - method:
+    value:
+  - method:
+    value:
+outputs:
+  - destination: file://./text1.results.txt
+    format: csv
+    bulk_support: true
+    bulk_max_size: 100
+    bulk_max_duration: 10s
+  - destination: udp://1.2.3.4:1234
+    format: bson
+    bulk_support: true
+    bulk_max_size: 100
+    bulk_max_duration: 10s
+  - destination: tcp://1.2.3.4:1234
+    format: ymal
+    bulk_support: true
+    bulk_max_size: 100
+    bulk_max_duration: 10s
+  - destination: http://1.2.3.4:8080/logcollect/
+    format: json
+    http:
+      method: POST
+      auth: 'Basic'  ### Digest
+      username: user
+      password: pass
+      headers:
+        - k: AAA
+          v: BBB
+        - k: CCC
+          v: DDD
+    bulk_support: true
+    bulk_max_size: 100
+    bulk_max_duration: 10s
