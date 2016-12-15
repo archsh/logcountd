@@ -4,6 +4,7 @@ import (
 	"os"
 	"flag"
 	"fmt"
+	"logmarked/logmarker"
 )
 
 const VERSION = "0.1.0"
@@ -23,7 +24,7 @@ Options:
 
 
 func main() {
-	option := Configuration{}
+	option := logmarker.Configuration{}
 	log_file := ""
 	log_level := "WARN"
 	// Global Arguments ================================================================================================
@@ -52,13 +53,13 @@ func main() {
 		Usage()
 		os.Exit(1)
 	}
-	if e:= LoadConfiguration(config, &option); e != nil {
+	if e:= logmarker.LoadConfiguration(config, &option); e != nil {
 		os.Stderr.Write([]byte(fmt.Sprintf("\n\n!!! Load Configuration file '%s' failed: %s \n", config, e)))
 		os.Exit(1)
 	}
 
 	if check {
-		CheckConfiguration(&option, os.Stderr)
+		logmarker.CheckConfiguration(&option, os.Stderr)
 		os.Exit(0)
 	}
 
@@ -73,7 +74,7 @@ func main() {
 
 	//os.Stderr.Write([]byte(fmt.Sprintf("Config: \n %+v \n", option)))
 
-	if e := LogMarkerStart(&option); nil != e {
+	if e := logmarker.Run(&option); nil != e {
 		os.Stderr.Write([]byte(fmt.Sprintf("\n\n!!! Run LogMarkerStart failed: %s \n", e)))
 		os.Exit(1)
 	}else{

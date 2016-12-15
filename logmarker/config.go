@@ -1,4 +1,4 @@
-package main
+package logmarker
 import (
 	"io"
 	"logmarked/input"
